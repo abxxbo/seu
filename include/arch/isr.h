@@ -37,10 +37,13 @@ void register_interrupt_handler(uint8_t n, isr_t handler){
 }
 
 void isr_handler(registers_t regs){
-	printf("Exception caught. Int No: %x.\n", regs.int_no);
-	printf("At the time of the exception...\n");
-	printf("EAX was %d, EBX was %d, ECX was %d, EDX was %d.\n", regs.eax, regs.ebx,
-																															regs.ecx, regs.edx);
+	if(regs.int_no == 0xE) page_fault(regs);
+	// else {
+		printf("Exception caught. Int No: %x.\n", regs.int_no);
+		printf("At the time of the exception...\n");
+		printf("EAX was %x, EBX was %x, ECX was %x, EDX was %x.\n", regs.eax, regs.ebx, regs.ecx, regs.edx);
+	// }
+	asm("cli; hlt");
 }
 
 void irq_handler(registers_t regs){

@@ -18,10 +18,10 @@ OBJS := bin/boot.o bin/kernel.o bin/gdt.o bin/idt.o
 os:
 	@mkdir -p bin/
 	nasm -felf src/boot/boot.s -o bin/boot.o
-	@$(CC) $(CFLAGS) -c src/kernel/kernel.c -o bin/kernel.o
+	$(CC) $(CFLAGS) -c src/kernel/kernel.c -o bin/kernel.o
 	
-	@nasm -f elf include/arch/asm/gdt.s -o bin/gdt.o
-	@nasm -f elf include/arch/asm/interrupts.s -o bin/idt.o
+	nasm -f elf include/arch/asm/gdt.s -o bin/gdt.o
+	nasm -f elf include/arch/asm/interrupts.s -o bin/idt.o
 	
 
 	@$(CC) $(LDFLAG) $(OBJS) -o bin/kernel.elf -lgcc

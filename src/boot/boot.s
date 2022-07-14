@@ -27,4 +27,4 @@ section .text
 		cli
 		hlt
 		jmp .hang
-	.end:
+	end:
