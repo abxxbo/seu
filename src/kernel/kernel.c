@@ -8,10 +8,7 @@
 #include <arch/irqs/kbd.h>
 
 void kernel_main(){
-	// disable cursor
-	outb(0x3D4, 0x0A);
-	outb(0x3D5, 0x20);
-
+	enable_cursor();
 	printf("Hello World!\n");
 	init_dt();
 	printf("GDT/IDT Enabled!\n\n");

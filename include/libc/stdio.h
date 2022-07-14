@@ -7,23 +7,8 @@
 #include "vga.h"
 #include "string.h"
 
-void term_init(){
-	for (int col = 0; col < VGA_COLS; col++){
-		for (int row = 0; row < VGA_ROWS; row++){
-			// The VGA textmode buffer has size (VGA_COLS * VGA_ROWS).
-			// Given this, we find an index into the buffer for our character
-			const size_t index = (VGA_COLS * row) + col;
-			// Entries in the VGA buffer take the binary form BBBBFFFFCCCCCCCC, where:
-			// - B is the background color
-			// - F is the foreground color
-			// - C is the ASCII character
-			vga_buffer[index] = ((uint16_t)y_posor << 8) | ' ';
-		}
-	}
-}
-
-static void scroll(){
-	uint8_t attributeByte = (0 << 4) | (15 & 0x0F);
+static void scroll(uint8_t color){
+	uint8_t attributeByte = (0 << 4) | color;
 	uint16_t blank = 0x20 | (attributeByte << 8);
 
 	if(y_pos >= 25){
@@ -39,34 +24,29 @@ static void scroll(){
 	}
 } 
 
-void term_putc(char c){
-	switch (c){
-		case '\n': {
-			y_pos = 0;
-			x_pos++;
-			break;
-		}
-	
-		default: {
-			const size_t index = (VGA_COLS * x_pos) + y_pos;
-			vga_buffer[index] = ((uint16_t)y_posor << 8) | c;
-			y_pos++;
-			break;
-		}
-	}
- 
-	if (y_pos >= VGA_COLS){
-		scroll(); // scroll if y >= 25
-	}
- 
-	if (x_pos >= VGA_ROWS){
-		y_pos = 0;
-		x_pos = 0;
-	}
+int color = 2;
+void puts(const char *string) {
+  volatile uint8_t *video = (volatile uint8_t*)0xB8000;
+  while (*string) {
+    switch (*string) {
+      case '\n':
+        update_cursor(x_pos=0,++y_pos);
+				scroll(GREY);
+        return;
+      default:
+        video[x_pos*2+y_pos*160] = (3 << 16) + *string++;
+        if (++x_pos >= 80) {
+          x_pos = 0;
+          y_pos++;
+        }
+        update_cursor(x_pos,y_pos);
+    }
+  }
 }
- 
-void puts(const char* str){
-	for (size_t i = 0; str[i] != '\0'; i++) term_putc(str[i]);
+
+void term_putc(char c){
+	char str[2] = {c, '\0'};
+	puts(str);
 }
 
 void printf(char* fmt, ...) {
