@@ -7,6 +7,7 @@
 #include "vga.h"
 #include "string.h"
 
+
 static void scroll(uint8_t color){
 	uint8_t attributeByte = (0 << 4) | color;
 	uint16_t blank = 0x20 | (attributeByte << 8);
@@ -79,3 +80,5 @@ void printf(char* fmt, ...) {
 		}
 	}
 }
+
+#define panic(x) printf(x); for(;;);
