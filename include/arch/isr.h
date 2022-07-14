@@ -37,9 +37,27 @@ void register_interrupt_handler(uint8_t n, isr_t handler){
 }
 
 void isr_handler(registers_t regs){
+	// invoke the page fault handler if int number is 0xE.
 	if(regs.int_no == 0xE) page_fault(regs);
 	// else {
-		printf("Exception caught. Int No: %x.\n", regs.int_no);
+		printf("Exception caught: ");
+		switch(regs.int_no){
+			case 0x00: puts("Div By Zero\n");
+			case 0x01: puts("Debug\n");
+			case 0x02: puts("Non-Maskable\n");
+			case 0x03: puts("Breakpoint\n");
+			case 0x04: puts("Overflow\n");
+			case 0x05: puts("Bound Rage Exceeded\n");
+			case 0x06: puts("Invalid Opcode\n");
+			case 0x07: puts("Dev. Not Available\n");
+			case 0x08: puts("Double Fault\n");
+
+			case 0x0A: puts("Invalid TSS\n");
+			case 0x0B: puts("Segment Not Present\n");
+			case 0x0C: puts("Stack Segment Fault\n");
+			case 0x0D: puts("General Protection Fault\n");
+			case 0x0E: puts("Page Fault\n");
+		}
 		printf("At the time of the exception...\n");
 		printf("EAX was %x, EBX was %x, ECX was %x, EDX was %x.\n", regs.eax, regs.ebx, regs.ecx, regs.edx);
 	// }
