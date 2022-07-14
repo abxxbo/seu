@@ -37,7 +37,10 @@ void register_interrupt_handler(uint8_t n, isr_t handler){
 }
 
 void isr_handler(registers_t regs){
-	printf("[ISR] Recieved exception %x.\n", regs.int_no);
+	printf("Exception caught. Int No: %x.\n", regs.int_no);
+	printf("At the time of the exception...\n");
+	printf("EAX was %d, EBX was %d, ECX was %d, EDX was %d.\n", regs.eax, regs.ebx,
+																															regs.ecx, regs.edx);
 }
 
 void irq_handler(registers_t regs){
