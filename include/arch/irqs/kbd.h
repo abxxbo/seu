@@ -21,6 +21,9 @@ const char sc_table[] ={
 	0, ' '
 };
 
+int lshift_pressed = 0;
+int rshift_pressed = 0;
+
 void kbd_callback(registers_t regs){
 	uint8_t ch = inb(0x60);
 	uint8_t chr = 0;
@@ -31,8 +34,37 @@ void kbd_callback(registers_t regs){
 
 	// handle the keyboard
 	if(chr != 0){
-		term_putc(chr);
+		switch(lshift_pressed | rshift_pressed){
+			case 0:
+				term_putc(chr); // non
+				break;
+			case 1: // if either are pressed
+				term_putc(chr - 32); // capital
+				break;
+		}
 	} else {
+		switch(ch){
+			// Shifts
+			case 0x2a: // left shit pressed
+				lshift_pressed = 1;
+				break;
+			case 0xaa: // left shift released
+				lshift_pressed = 0;
+				break;
+
+			/// Right shift
+			case 0x36: // pressed
+				rshift_pressed = 1;
+				break;
+			case 0xb6: // released
+				rshift_pressed = 0;
+				break;
+
+			// other important keyboard input
+			case 0x9c: // Enter
+				puts("\n");
+				break;
+		}
 	}
 }
 
