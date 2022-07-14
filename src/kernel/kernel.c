@@ -1,11 +1,11 @@
-#include <stddef.h>
-#include <stdint.h>
-
 #include <libc/stdio.h>
 
-#include <arch/timer.h>
-#include <arch/isr.h>
 #include <arch/dt.h>
+#include <arch/isr.h>
+
+
+// IRQs
+#include <arch/irqs/kbd.h>
 
 void kernel_main(){
 	printf("Hello World.\n");
@@ -16,7 +16,8 @@ void kernel_main(){
 	asm("int $0xf");
 
 	asm("sti");
-	init_timer(50);
+	// init_timer(50);
+	init_kbd();
 
 	for(;;) asm("hlt");
 }

@@ -1,4 +1,4 @@
-#include "isr.h"
+#include "../isr.h"
 
 #include <libc/stdio.h>
 #include "io.h"
