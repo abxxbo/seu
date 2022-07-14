@@ -1,5 +1,5 @@
 CC := i686-elf-gcc
-CFLAGS := -std=gnu99 -ffreestanding -g
+CFLAGS := -std=gnu99 -ffreestanding -g -Iinclude
 LDFLAG := -ffreestanding -nostdlib -g -Tsrc/link.ld
 
 QEMU := qemu-system-i386
