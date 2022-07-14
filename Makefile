@@ -10,6 +10,8 @@ QEMU_FLAGS := -no-shutdown -no-reboot -debugcon stdio
 all: clean os build_iso
 .PHONY: all
 
+run: execute
+
 OBJS := bin/boot.o bin/kernel.o bin/gdt.o bin/idt.o
 
 
