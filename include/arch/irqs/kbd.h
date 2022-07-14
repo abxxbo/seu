@@ -45,7 +45,7 @@ void kbd_callback(registers_t regs){
 	} else {
 		switch(ch){
 			// Shifts
-			case 0x2a: // left shit pressed
+			case 0x2a: // left shift pressed
 				lshift_pressed = 1;
 				break;
 			case 0xaa: // left shift released
@@ -64,6 +64,8 @@ void kbd_callback(registers_t regs){
 			case 0x9c: // Enter
 				puts("\n");
 				break;
+			// NOTE: implement a backspace once usermode/shell
+			// implemented
 		}
 	}
 }
