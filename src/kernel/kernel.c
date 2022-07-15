@@ -15,6 +15,7 @@ void kernel_main(){
 
 	asm("sti");
 	// init_timer(50);
+	init_kbd();
 
 	// fix for IRQs
 	for(;;) asm("hlt");
