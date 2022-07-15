@@ -7,9 +7,6 @@
 // IRQs
 #include <arch/irqs/kbd.h>
 
-// other
-#include <mem/paging.h>
-
 void kernel_main(){
 	enable_cursor();
 	printf("Hello World!\n");
@@ -18,10 +15,7 @@ void kernel_main(){
 
 	asm("sti");
 	// init_timer(50);
-	initialize_paging();
 
-	uint32_t f = kmalloc(2147483647);
-	printf("Kmalloc %x/%d", f, f);
 	// fix for IRQs
 	for(;;) asm("hlt");
 }
