@@ -20,10 +20,8 @@ void kernel_main(){
 	// init_timer(50);
 	initialize_paging();
 
-	// Cause a page fault
-	uint32_t *ptr = (uint32_t*)0xA0000000;
-	uint32_t do_page_fault = *ptr;
-
+	uint32_t f = kmalloc(2147483647);
+	printf("Kmalloc %x/%d", f, f);
 	// fix for IRQs
 	for(;;) asm("hlt");
 }

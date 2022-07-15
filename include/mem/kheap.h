@@ -11,8 +11,11 @@ uint32_t kmalloc_int(uint32_t sz, int align, uint32_t *phys){
         // Align the placement address;
         placement_address &= 0xFFFFF000;
         placement_address += 0x1000;
+    } else {
+        return 1;
     }
     if (phys) *phys = placement_address;
+    else return 1;
     uint32_t tmp = placement_address;
     placement_address += sz;
     return tmp;
