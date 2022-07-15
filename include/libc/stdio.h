@@ -13,15 +13,10 @@ static void scroll(uint8_t color){
 	uint16_t blank = 0x20 | (attributeByte << 8);
 
 	if(y_pos >= 25){
-			int i;
-			for (i = 0*80; i < 24*80; i++){
-					vga_buffer[i] = vga_buffer[i+80];
-			}
-
-			for (i = 24*80; i < 25*80; i++){
-					vga_buffer[i] = blank;
-			}
-			y_pos = 24;
+		int i;
+		for (i = 0*80; i < 24*80; i++) vga_buffer[i] = vga_buffer[i+80];
+		for (i = 24*80; i < 25*80; i++) vga_buffer[i] = blank;
+		y_pos = 24;
 	}
 } 
 
