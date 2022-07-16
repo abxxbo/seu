@@ -1,7 +1,7 @@
 # Build
 bin/
 isodir/
-*.iso
+*.img
 
 # editor
 .vscode/

@@ -27,13 +27,13 @@ os:
 	
 	ld -melf_i386 -Tsrc/link.ld
 
-	cat bin/sector.o bin/kernel.bin > seu.iso
+	cat bin/sector.o bin/kernel.bin > seu.img
 
-execute: seu.iso
+execute: seu.img
 	$(QEMU) $(Q_NODEBUG) -fda $^
 
-debug: seu.iso
+debug: seu.img
 	$(QEMU) $(Q_DEBUG) -fda $^
 
 clean:
-	@rm -rf bin/ isodir/ seu.iso
+	@rm -rf bin/ isodir/ seu.img
