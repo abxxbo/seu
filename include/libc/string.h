@@ -56,3 +56,14 @@ int strstr(char*s, char* ss){
 	if(cont == len_ss) return 0;
 	return 127;
 }
+
+void memcpy(uint8_t *dest, const uint8_t *src, uint32_t len){
+    const uint8_t *sp = (const uint8_t *)src;
+    uint8_t *dp = (uint8_t *)dest;
+    for(; len != 0; len--) *dp++ = *sp++;
+}
+
+char *strcpy(char *dest, const char *src){
+	do *dest++ = *src++;
+	while(*src != 0);
+}
