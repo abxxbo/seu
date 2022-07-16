@@ -6,11 +6,8 @@
 #include <libc/stdio.h>
 #include <libc/string.h>
 
-#include <apps/sfetch.h>
-
 char* recognized_commands[] = {
-	"help",			// ... only a help command, just print out each entry here.
-	"sfetch"
+	"help"			// ... only a help command, just print out each entry here.
 };
 
 int reg_cmd_l = sizeof(recognized_commands)/sizeof(recognized_commands[0]);
@@ -24,10 +21,6 @@ int ask_shell_cmd(char* buffer){
 				for(int j = 0; j < reg_cmd_l; j++){
 					printf("%s\n", recognized_commands[j]);
 				}
-				return 0;
-			}
-			if(strstr(buffer, recognized_commands[1]) == 0){
-				sfetch_run();
 				return 0;
 			}
 		} else {
