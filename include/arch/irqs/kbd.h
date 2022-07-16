@@ -40,12 +40,12 @@ void kbd_callback(registers_t regs){
 	if(chr != 0){
 		switch(lshift_pressed | rshift_pressed){
 			case 0:
-				term_putc(chr); // non
+				term_putc(chr, 0x7, x_pos, y_pos); // non
 				buf[_append_buf] = chr;
 				_append_buf++;
 				break;
 			case 1: // if either are pressed
-				term_putc(chr - 32); // capital
+				term_putc(chr - 32, 0x7, x_pos, y_pos); // capital
 				buf[_append_buf] = chr;
 				_append_buf++;
 				break;

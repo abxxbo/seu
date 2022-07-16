@@ -1,3 +1,4 @@
+
 gdt_nulldesc:
 	dd 0
 	dd 0	
@@ -25,3 +26,12 @@ gdt_descriptor:
 
 codeseg equ gdt_codedesc - gdt_nulldesc
 dataseg equ gdt_datadesc - gdt_nulldesc
+
+;; this for some reason causes a triple fault
+;; if i dont have it so eh
+[bits 32]
+edit_gdt:
+	mov [gdt_codedesc + 6], byte 10101111b
+	mov [gdt_datadesc + 6], byte 10101111b
+	ret
+[bits 16]
