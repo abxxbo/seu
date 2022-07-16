@@ -7,8 +7,12 @@
 #include "vga.h"
 #include "string.h"
 
+#define set_text_color(col) color = col
 
-void term_putc(char c);
+int color = 0x7;
+
+
+void term_putc(unsigned char c, unsigned char forecolour, int x, int y);
 
 static void scroll(uint8_t color){
 	uint8_t attributeByte = (0 << 4) | color;
@@ -22,9 +26,7 @@ static void scroll(uint8_t color){
 	}
 } 
 
-int color = 2;
 void puts(const char *string) {
-  volatile uint8_t *video = (volatile uint8_t*)0xB8000;
   while (*string) {
     switch (*string) {
       case '\n':
@@ -32,22 +34,25 @@ void puts(const char *string) {
 				scroll(GREY);
         return;
 			case '\t':
-				for(int i = 0; i < 8; i++) term_putc(0x20);
+				for(int i = 0; i < 8; i++) term_putc(0x20, 0x00, x_pos, y_pos);
 				return;
       default:
-        video[x_pos*2+y_pos*160] = (3 << 16) + *string++;
-        if (++x_pos >= 80) {
-          x_pos = 0;
-          y_pos++;
-        }
+				term_putc(*string, color, x_pos, y_pos);
         update_cursor(x_pos,y_pos);
     }
+		*string++;
   }
 }
 
-void term_putc(char c){
-	char str[2] = {c, '\0'};
-	puts(str);
+void term_putc(unsigned char c, unsigned char forecolour, int x, int y){
+	uint16_t attrib = (0 << 4) | (forecolour & 0x0F);
+	volatile uint16_t * where;
+	where = (volatile uint16_t *)0xB8000 + (y * 80 + x) ;
+	*where = c | (attrib << 8);
+	if(++x_pos >= 80){
+		x_pos = 0;
+		y_pos++;
+	}
 }
 
 void printf(char* fmt, ...) {

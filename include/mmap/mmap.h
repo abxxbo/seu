@@ -20,8 +20,10 @@ void dmm(multiboot_info_t* mbd, uint32_t magic){
 
 
 		if(mmmt->type == MULTIBOOT_MEMORY_AVAILABLE) {
+			set_text_color(0xc);
 			printf("Addr: %x | Length: %x | Size: %x | Available\n",
 				mmmt->addr_low, mmmt->len_low, mmmt->size, mmmt->type);
+			set_text_color(0x7);
 		}
 	}
 }
