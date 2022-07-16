@@ -24,6 +24,8 @@ os:
 	
 	nasm -f elf include/arch/asm/gdt.s -o bin/gdt.o
 	nasm -f elf include/arch/asm/interrupts.s -o bin/idt.o
+
+	nasm -f elf include/mem/paging.asm -o bin/paging.o
 	
 	ld -melf_i386 -Tsrc/link.ld
 

@@ -1,19 +1,22 @@
 #include <libc/stdio.h>
 #include <libc/assert.h>
 
+#include <mem/paging.h>
+
 #include <arch/dt.h>
 #include <arch/isr.h>
 
-#include <arch/irqs/kbd.h>
 void kernel_main(){
 	enable_cursor();
-	printf("Hello World!\n");
-	
+
 	// initialize interrupts & gdt
 	init_dt();
 	asm("sti");
 
-	init_kbd();
+	start_paging();
+	printf("Hello, paging world!\n");
+
+
 	// fix for IRQs
 	for(;;) asm("hlt");
 }

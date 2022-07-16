@@ -9,6 +9,8 @@ INPUT
 
 	bin/idt.o
 	bin/gdt.o
+
+	bin/paging.o
 )
 
 OUTPUT
