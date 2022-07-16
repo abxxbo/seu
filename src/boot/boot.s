@@ -21,6 +21,8 @@ section .text
 [global _start]
 	_start:
 		mov esp, stack_top
+		push eax
+		push ebx
 		call kernel_main
 
 	.hang:

@@ -3,11 +3,11 @@
 #include <arch/dt.h>
 #include <arch/isr.h>
 
+#include <mmap/mmap.h>
+#include <mmap/multiboot.h>
 
-// IRQs
-#include <arch/irqs/kbd.h>
 
-void kernel_main(){
+void kernel_main(multiboot_info_t* mb_info, uint32_t magic){
 	enable_cursor();
 	printf("Hello World!\n");
 	
@@ -15,12 +15,7 @@ void kernel_main(){
 	init_dt();
 	asm("sti");
 
-
-	// initialization completed.
-	printf("Seu initialization completed!\n");
-	printf("\"balls, nuts, testicles even\"\n\t\t\t     -- lcohs\n\n"); // the motto
-
-	init_kbd();
+	dmm(mb_info, magic);
 
 	// fix for IRQs
 	for(;;) asm("hlt");
