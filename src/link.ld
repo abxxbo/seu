@@ -1,34 +1,39 @@
-ENTRY(_start)
- 
+OUTPUT_FORMAT(binary)
+
+ENTRY (_start)
+
+INPUT
+(
+	bin/past.o
+)
+
+OUTPUT
+(
+  bin/kernel.bin
+)
+
 SECTIONS
 {
-	. = 1M;
- 
-	.rodata BLOCK(4K) : ALIGN(4K)
-	{
-		*(.multiboot)
-	}
- 
-	.text BLOCK(4K) : ALIGN(4K)
+	. = 0x8000;
+
+	.text : ALIGN(0x1000)
 	{
 		*(.text)
 	}
- 
- 	.rodata BLOCK(4K) : ALIGN(4K)
-	{
-		*(.rodata)
-	}
- 
-	.data BLOCK(4K) : ALIGN(4K)
+
+	.data : ALIGN(0x1000)
 	{
 		*(.data)
 	}
- 
-	.bss BLOCK(4K) : ALIGN(4K)
+
+	.rodata : ALIGN(0x1000)
+	{
+		*(.rodata)
+	}
+
+	.bss : ALIGN(0x1000)
 	{
 		*(COMMON)
 		*(.bss)
 	}
-
-	end = .; _end = .; __end = .;
 }

@@ -7,7 +7,7 @@ Q_NODEBUG := -m 512m -debugcon stdio
 Q_DEBUG		:= -d int -M smm=off -no-shutdown -no-reboot -monitor stdio
 
 
-all: clean os build_iso
+all: clean os #build_iso
 .PHONY: all
 
 run: execute
@@ -16,15 +16,12 @@ OBJS := bin/boot.o bin/kernel.o bin/gdt.o bin/idt.o
 
 
 os:
-	@mkdir -p bin/
-	nasm -felf src/boot/boot.s -o bin/boot.o
-	$(CC) $(CFLAGS) -c src/kernel/kernel.c -o bin/kernel.o
-	
-	nasm -f elf include/arch/asm/gdt.s -o bin/gdt.o
-	nasm -f elf include/arch/asm/interrupts.s -o bin/idt.o
-	
+	mkdir -p bin/
+	nasm -f bin src/boot/sector.asm -o bin/sector.o
+	nasm -f elf -Isrc/boot/ext src/boot/extended.asm -o bin/past.o
+	ld -melf_i386 -Tsrc/link.ld
 
-	@$(CC) $(LDFLAG) $(OBJS) -o bin/kernel.elf -lgcc
+	cat bin/sector.o bin/kernel.bin > kernel.img
 
 build_iso:
 	@mkdir -p isodir/boot/grub
