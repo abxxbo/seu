@@ -2,6 +2,7 @@
 
 #include "../isr.h"
 #include "io.h"
+#include "sh.h"
 
 const char sc_table[] ={
 	0, 0, '1', '2',
@@ -24,6 +25,9 @@ const char sc_table[] ={
 int lshift_pressed = 0;
 int rshift_pressed = 0;
 
+char buf[256]; 		// up until an '\n' detected, add to buf
+int _append_buf = 0;
+
 void kbd_callback(registers_t regs){
 	uint8_t ch = inb(0x60);
 	uint8_t chr = 0;
@@ -37,9 +41,13 @@ void kbd_callback(registers_t regs){
 		switch(lshift_pressed | rshift_pressed){
 			case 0:
 				term_putc(chr); // non
+				buf[_append_buf] = chr;
+				_append_buf++;
 				break;
 			case 1: // if either are pressed
 				term_putc(chr - 32); // capital
+				buf[_append_buf] = chr;
+				_append_buf++;
 				break;
 		}
 	} else {
@@ -63,6 +71,19 @@ void kbd_callback(registers_t regs){
 			// other important keyboard input
 			case 0x9c: // Enter
 				puts("\n");
+				printf("%s\n", buf);
+				// Clear buffer
+				for(int i = 0; i < 256; i++) buf[i] = 0;
+				_append_buf = 0;
+
+				// Ask shell, if a command that has the first word (sep. by space)
+				// in it's list of commands (TODO: search the fs, once one is implemented)
+				// If anything but a 0 is given, the command either does not exist or is
+				// malformed. However, if 2 is given, then nothing was in the buffer to
+				// begin with, so don't do anything
+				int ret_code = ask_shell_cmd(buf);
+				if(ret_code == 2);
+				else if(ret_code != 0) printf("Malformed command and/or unknown command given.\n");
 				break;
 			// NOTE: implement a backspace once usermode/shell
 			// implemented
