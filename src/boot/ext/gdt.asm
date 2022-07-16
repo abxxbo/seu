@@ -1,28 +1,27 @@
-gdt_start:
-	dd 0x0
-	dd 0x0
-
-gdt_code: 
-	dw 0xffff
-	dw 0
-	db 0
-	db 10011010b
-	db 11001111b
-	db 0
-
-gdt_data:
-	dw 0xffff
-	dw 0
-	db 0
+gdt_nulldesc:
+	dd 0
+	dd 0	
+gdt_codedesc:
+	dw 0xFFFF			; Limit
+	dw 0x0000			; Base (low)
+	db 0x00				; Base (medium)
+	db 10011010b		; Flags
+	db 11001111b		; Flags + Upper Limit
+	db 0x00				; Base (high)
+gdt_datadesc:
+	dw 0xFFFF
+	dw 0x0000
+	db 0x00
 	db 10010010b
 	db 11001111b
-	db 0
+	db 0x00
 
 gdt_end:
 
-gdt_desc:
-	dw gdt_end - gdt_start - 1
-	dd gdt_start
+gdt_descriptor:
+	gdt_size: 
+		dw gdt_end - gdt_nulldesc - 1
+		dq gdt_nulldesc
 
-codeseg equ gdt_code - gdt_start
-dataseg equ gdt_data - gdt_start
+codeseg equ gdt_codedesc - gdt_nulldesc
+dataseg equ gdt_datadesc - gdt_nulldesc

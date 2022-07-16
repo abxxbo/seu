@@ -1,10 +1,14 @@
 OUTPUT_FORMAT(binary)
 
-ENTRY (_start)
+ENTRY (kernel_main)
 
 INPUT
 (
 	bin/past.o
+	bin/kernel.o
+
+	bin/idt.o
+	bin/gdt.o
 )
 
 OUTPUT

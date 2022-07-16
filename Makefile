@@ -7,7 +7,7 @@ Q_NODEBUG := -m 512m -debugcon stdio
 Q_DEBUG		:= -d int -M smm=off -no-shutdown -no-reboot -monitor stdio
 
 
-all: clean os #build_iso
+all: clean os
 .PHONY: all
 
 run: execute
@@ -19,22 +19,21 @@ os:
 	mkdir -p bin/
 	nasm -f bin src/boot/sector.asm -o bin/sector.o
 	nasm -f elf -Isrc/boot/ext src/boot/extended.asm -o bin/past.o
+
+	$(CC) $(CFLAGS) -c src/kernel/kernel.c -o bin/kernel.o
+	
+	nasm -f elf include/arch/asm/gdt.s -o bin/gdt.o
+	nasm -f elf include/arch/asm/interrupts.s -o bin/idt.o
+	
 	ld -melf_i386 -Tsrc/link.ld
 
-	cat bin/sector.o bin/kernel.bin > kernel.img
-
-build_iso:
-	@mkdir -p isodir/boot/grub
-	@cp src/boot/grub.cfg isodir/boot/grub/
-	@cp bin/kernel.elf isodir/boot/kernel.elf
-
-	@grub-mkrescue isodir -o seu.iso 2>/dev/null
+	cat bin/sector.o bin/kernel.bin > seu.iso
 
 execute: seu.iso
-	$(QEMU) $(Q_NODEBUG) -cdrom $^
+	$(QEMU) $(Q_NODEBUG) -fda $^
 
 debug: seu.iso
-	$(QEMU) $(Q_DEBUG) -cdrom $^
+	$(QEMU) $(Q_DEBUG) -fda $^
 
 clean:
 	@rm -rf bin/ isodir/ seu.iso

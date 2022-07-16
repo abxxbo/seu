@@ -4,9 +4,6 @@ xor ax, ax
 mov ds, ax
 mov es, ax
 
-mov sp, 0x7c00
-mov bp, sp
-
 mov [BDISK], dl
 call disk_read
 jmp K_LOC
@@ -15,12 +12,12 @@ jmp $
 
 ;; Warning, this is only for floppies,
 ;; Fix for release?
-K_LOC equ 0x7e00
+K_LOC equ 0x8000
 
 disk_read:
   mov ah, 0x02
   mov bx, K_LOC
-  mov al, 4
+  mov al, 32
   mov dl, [BDISK]
   mov ch, 0x00
   mov dh, 0x00
