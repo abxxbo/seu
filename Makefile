@@ -17,7 +17,7 @@ OBJS := bin/boot.o bin/kernel.o bin/gdt.o bin/idt.o
 
 os:
 	mkdir -p bin/
-	nasm -f bin src/boot/sector.asm -o bin/sector.o
+	nasm -f bin -Isrc/boot src/boot/sector.asm -o bin/sector.o
 	nasm -f elf -Isrc/boot/ext src/boot/extended.asm -o bin/past.o
 
 	$(CC) $(CFLAGS) -c src/kernel/kernel.c -o bin/kernel.o
