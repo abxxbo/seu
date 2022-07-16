@@ -18,7 +18,7 @@ void kernel_main(){
 
 	// initialization completed.
 	printf("Seu initialization completed!\n");
-	printf("\"balls, nuts, testicles even\"\n\t\t\t -- lcohs\n\n"); // the motto
+	printf("\"balls, nuts, testicles even\"\n\t\t\t     -- lcohs\n\n"); // the motto
 
 	init_kbd();
 
