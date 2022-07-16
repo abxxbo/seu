@@ -53,6 +53,7 @@ void term_putc(unsigned char c, unsigned char forecolour, int x, int y){
 		x_pos = 0;
 		y_pos++;
 	}
+	update_cursor(x_pos, y_pos);
 }
 
 void printf(char* fmt, ...) {
