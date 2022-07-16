@@ -1,18 +1,24 @@
+;; Set video mode.
+;; TODO: switch this out for VESA/VBE
+;; at some point
+mov ah, 0x00
+mov al, 0x3
+int 0x10
 
-jmp EnterProtectedMode
+jmp _pmode
 
 %include "gdt.asm"
 
-EnterProtectedMode:
-	call EnableA20
+_pmode:
+	call _a20
 	cli
-	lgdt [gdt_descriptor]
+	lgdt [gdt_desc]
 	mov eax, cr0
 	or eax, 1
 	mov cr0, eax
-	jmp codeseg:StartProtectedMode
+	jmp codeseg:spmode
 
-EnableA20:
+_a20:
 	in al, 0x92
 	or al, 2
 	out 0x92, al
@@ -20,7 +26,7 @@ EnableA20:
 
 [bits 32]
 [extern kernel_main]
-StartProtectedMode:
+spmode:
 	mov ax, dataseg
 	mov ds, ax
 	mov ss, ax
