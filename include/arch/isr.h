@@ -37,7 +37,7 @@ void register_interrupt_handler(uint8_t n, isr_t handler){
 }
 
 void isr_handler(registers_t regs){
-	printf("Exception caught: ");
+	printf("Exception caught: %x\n", regs.int_no);
 	switch(regs.int_no){
 		case 0x00: puts("Div By Zero\n");
 		case 0x01: puts("Debug\n");
