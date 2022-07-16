@@ -36,28 +36,83 @@ void register_interrupt_handler(uint8_t n, isr_t handler){
 	interrupt_handlers[n] = handler;
 }
 
-void isr_handler(registers_t regs){
-	printf("Exception caught: %x\n", regs.int_no);
-	switch(regs.int_no){
-		case 0x00: puts("Div By Zero\n");
-		case 0x01: puts("Debug\n");
-		case 0x02: puts("Non-Maskable\n");
-		case 0x03: puts("Breakpoint\n");
-		case 0x04: puts("Overflow\n");
-		case 0x05: puts("Bound Rage Exceeded\n");
-		case 0x06: puts("Invalid Opcode\n");
-		case 0x07: puts("Dev. Not Available\n");
-		case 0x08: puts("Double Fault\n");
+void isr_handler(registers_t r){
+	int fault = 0;
+	int traps = 0;
 
-		case 0x0A: puts("Invalid TSS\n");
-		case 0x0B: puts("Segment Not Present\n");
-		case 0x0C: puts("Stack Segment Fault\n");
-		case 0x0D: puts("General Protection Fault\n");
-		case 0x0E: puts("Page Fault\n");
+	switch(r.int_no){
+		case 0x0: { fault = 1; break; }
+		case 0x1: { traps = 1; fault = 1; break; }
+		case 0x3: { traps = 1; fault = 0; break; }
+		case 0x4: { traps = 1; break; }
+		case 0x5: { fault = 1; break; }
+		case 0x6: { fault = 1; break; }
+		case 0x7: { fault = 1; break; }
+		
+		case 0xa: { fault = 1; break; }
+		case 0xb: { fault = 1; break; }
+		case 0xc: { fault = 1; break; }
+		case 0xd: { fault = 1; break; }
+		case 0xe: { fault = 1; break; }
+
+		case 0x10: { fault = 1; break; }
+		case 0x11: { fault = 1; break; }
+		case 0x13: { fault = 1; break; }
+		case 0x14: { fault = 1; break; }
+		case 0x15: { fault = 1; break; }
+		case 0x1c: { fault = 1; break; }
+		case 0x1d: { fault = 1; break; }
+		case 0x1e: { fault = 1; break; }
+		
 	}
-	printf("At the time of the exception...\n");
-	printf("EAX was %x, EBX was %x, ECX was %x, EDX was %x.\n", regs.eax, regs.ebx, regs.ecx, regs.edx);
-	asm("cli; hlt");
+	if(fault == 1 && traps == 0){
+		int ecode = 0;
+		if(r.err_code != 0) ecode = 1;
+		printf("Fault occurred!\t");
+		set_text_color(0xa);
+		printf("Int. No: %x. Error code? %s -- %d (%x)\n",
+					  r.int_no, ecode ? "Yes": "N/A", r.err_code, r.err_code);
+		set_text_color(0x7);
+		return; // Return execution to main proc.
+	}
+
+	if(fault == 0 && traps == 1){
+		int ecode = 0;
+		if(r.err_code != 0) ecode = 1;
+		printf("Trap occurred!\t ");
+		set_text_color(0x2);
+		printf("Int. No: %x. Error code? %s -- %d (%x)\n",
+					  r.int_no, ecode ? "Yes": "N/A", r.err_code, r.err_code);
+		set_text_color(0x7);
+		return; // Return execution to main proc.
+	}
+
+	if(fault && 1 == traps == 1){
+		int ecode = 0;
+		if(r.err_code != 0) ecode = 1;
+		printf("Trap+Fault occurred!   ");
+		set_text_color(0x1);
+		printf("Int. No: %x. Error code? %s -- %d (%x)\n",
+					  r.int_no, ecode ? "Yes": "N/A", r.err_code, r.err_code);
+		set_text_color(0x7);
+		return; // Return execution to main proc.
+	}
+
+	if(fault && 0 == traps == 0){
+		int ecode = 0;
+		printf("Unhandled interrupt! ");
+		set_text_color(0x4);
+		
+		if(r.err_code != 0) ecode = 1;
+		printf("Int No: %x | Err. Code? %s (val: %x)\n",
+						r.int_no, ecode ? "Yes" : "No", r.err_code);
+		// Halt computer. Since we check if the interrupt number
+		// before, and if it's a fault or trap, we do not halt,
+		// just return.
+
+		// Since this is not a fault or trap, we will hang the computer
+		asm("cli; hlt");
+	}
 }
 
 void irq_handler(registers_t regs){
