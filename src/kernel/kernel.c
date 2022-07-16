@@ -1,4 +1,5 @@
 #include <libc/stdio.h>
+#include <libc/assert.h>
 
 #include <arch/dt.h>
 #include <arch/isr.h>
