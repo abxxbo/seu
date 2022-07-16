@@ -8,6 +8,8 @@
 #include "string.h"
 
 
+void term_putc(char c);
+
 static void scroll(uint8_t color){
 	uint8_t attributeByte = (0 << 4) | color;
 	uint16_t blank = 0x20 | (attributeByte << 8);
@@ -29,6 +31,9 @@ void puts(const char *string) {
         update_cursor(x_pos=0,++y_pos);
 				scroll(GREY);
         return;
+			case '\t':
+				for(int i = 0; i < 8; i++) term_putc(0x20);
+				return;
       default:
         video[x_pos*2+y_pos*160] = (3 << 16) + *string++;
         if (++x_pos >= 80) {

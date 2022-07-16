@@ -9,12 +9,16 @@
 
 void kernel_main(){
 	enable_cursor();
-	printf("Hello World\n");
+	printf("Hello World!\n");
+	
+	// initialize interrupts & gdt
 	init_dt();
 	asm("sti");
+
+
 	// initialization completed.
 	printf("Seu initialization completed!\n");
-	// printf("\"balls, nuts, testicles even\"\n\t-- lcohs");
+	printf("\"balls, nuts, testicles even\"\n\t\t\t -- lcohs\n\n"); // the motto
 
 	init_kbd();
 
