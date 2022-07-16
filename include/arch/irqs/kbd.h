@@ -70,11 +70,8 @@ void kbd_callback(registers_t regs){
 
 			// other important keyboard input
 			case 0x9c: // Enter
-				puts("\n");
-				printf("%s\n", buf);
-				// Clear buffer
-				for(int i = 0; i < 256; i++) buf[i] = 0;
-				_append_buf = 0;
+				printf("\n");
+				// printf("%s\n", buf);
 
 				// Ask shell, if a command that has the first word (sep. by space)
 				// in it's list of commands (TODO: search the fs, once one is implemented)
@@ -84,6 +81,14 @@ void kbd_callback(registers_t regs){
 				int ret_code = ask_shell_cmd(buf);
 				if(ret_code == 2);
 				else if(ret_code != 0) printf("Malformed command and/or unknown command given.\n");
+				
+				// Clear buffer
+				for(int i = 0; i < 256; i++) buf[i] = 0;
+				_append_buf = 0;
+
+				// rewrite the prompt
+
+				printf("ec: %d -> ", ret_code);
 				break;
 			// NOTE: implement a backspace once usermode/shell
 			// implemented
@@ -94,5 +99,6 @@ void kbd_callback(registers_t regs){
 
 // register the keyboard handler as a IRQ1
 void init_kbd(){
+	printf("ec: 0 -> "); // nothing is given
 	register_interrupt_handler(IRQ1, &kbd_callback);
 }
