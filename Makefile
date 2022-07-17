@@ -1,6 +1,6 @@
 CC := i686-elf-gcc
-CFLAGS := -std=gnu99 -ffreestanding -g -Iinclude -I.
-LDFLAG := -ffreestanding -nostdlib -g -Tsrc/link.ld
+CFLAGS := -std=gnu99 -ffreestanding -g -Iinclude -Iinclude/libc/
+LDFLAG := -Tsrc/link.ld
 
 QEMU 			:= qemu-system-i386
 Q_NODEBUG := -m 512m -debugcon stdio
@@ -19,7 +19,7 @@ os:
 
 	$(CC) $(CFLAGS) -c src/kernel/kernel.c -o bin/kernel.o
 	
-	ld -melf_i386 -Tsrc/link.ld
+	ld -melf_i386 $(LDFLAG)
 
 	cat bin/sector.o bin/kernel.bin > seu.img
 
