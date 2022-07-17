@@ -1,18 +1,24 @@
+[global idt_flush]
+idt_flush:
+	mov eax, [esp+4]
+	lidt [eax]
+	ret
+
 %macro ISR_NOERRCODE 1
-	[GLOBAL isr%1]
-	isr%1:
-		cli
-		push byte 0
-		push byte %1
-		jmp isr_common_stub
+[global isr%1]
+isr%1:
+	cli
+	push byte 0
+	push byte %1
+	jmp isr_common_stub
 %endmacro
 
 %macro ISR_ERRCODE 1
-	[GLOBAL isr%1]
-	isr%1:
-		cli
-		push byte %1
-		jmp isr_common_stub
+[global isr%1]
+isr%1:
+	cli
+	push byte %1
+	jmp isr_common_stub
 %endmacro
 
 %macro IRQ 2
@@ -57,31 +63,26 @@ ISR_NOERRCODE 29
 ISR_NOERRCODE 30
 ISR_NOERRCODE 31
 
+IRQ 0, 32
+IRQ 1, 33
+IRQ 2, 34
+IRQ 3, 35
+IRQ 4, 36
+IRQ 5, 37
+IRQ 6, 38
+IRQ 7, 39
+IRQ 8, 40
+IRQ 9, 41
+IRQ 10, 42
+IRQ 11, 43
+IRQ 12, 44
+IRQ 13, 45
+IRQ 14, 46
+IRQ 15, 47
 
-IRQ  0,  32
-IRQ  1,  33
-IRQ  2,  34
-IRQ  3,  35
-IRQ  4,  36
-IRQ  5,  37
-IRQ  6,  38
-IRQ  7,  39
-IRQ  8,  40
-IRQ  9,  41
-IRQ  10, 42
-IRQ  11, 43
-IRQ  12, 44
-IRQ  13, 45
-IRQ  14, 46
-IRQ  15, 47
-
-
-;; ISR Handler
-[EXTERN isr_handler]
-
+[extern isr_handler]
 isr_common_stub:
 	pusha
-
 	mov ax, ds
 	push eax
 
@@ -93,8 +94,7 @@ isr_common_stub:
 
 	call isr_handler
 
-	;; exit handler
-	pop eax	;; original data seg
+	pop eax
 	mov ds, ax
 	mov es, ax
 	mov fs, ax
@@ -102,10 +102,11 @@ isr_common_stub:
 
 	popa
 	add esp, 8
-	sti		;; inable interrupts
+	sti
 	iret
 
-[EXTERN irq_handler]
+
+[extern irq_handler]
 irq_common_stub:
 	pusha
 

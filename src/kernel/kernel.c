@@ -1,22 +1,20 @@
-#include <libc/stdio.h>
-#include <libc/assert.h>
+#include <stdio.h>
+#include <arch/idt.h>
 
-#include <mem/paging.h>
-
-#include <arch/dt.h>
-#include <arch/isr.h>
+#include <arch/irq/kb.h>
+#include <arch/irq/cmos.h>
 
 void kernel_main(){
-	enable_cursor();
+	// set the first line to a light blue/cyan color
+	for(int i = 0; i <= 80; i++) wch_pos(0x20, 0x9, 0x9, i, 0);
+	printf("\nHello Kernel World!\n");
 
-	// initialize interrupts & gdt
-	init_dt();
+	init_idt();
 	asm("sti");
 
-	start_paging();
-	printf("Hello, paging world!\n");
+	// initialize the interrupts
+	init_kbd();
+	init_cmos();
 
-
-	// fix for IRQs
 	for(;;) asm("hlt");
 }
