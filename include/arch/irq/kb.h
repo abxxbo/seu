@@ -52,12 +52,15 @@ void kbd_handler(registers_t regs){
 				break;
 			case 0xaa: // left shift, released
 				lshift = 0;
+				rshift = 0;
+				break;
 
 			// the same thing for the right shift
 			case 0x36:
 				rshift = 1;
 				break;
 			case 0xb6:
+				lshift = 0;
 				rshift = 0;
 				break;
 
