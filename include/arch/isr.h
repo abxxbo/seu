@@ -37,6 +37,7 @@ void register_interrupt_handler(uint8_t n, isr_t handler){ interrupt_handlers[n]
 void isr_handler(registers_t regs){
 	set_color(0x4);
 	printf("unhandled interrupt 0x%x\n", regs.int_no);
+	asm("cli; hlt");
 }
 
 
