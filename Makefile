@@ -12,20 +12,12 @@ all: clean os
 
 run: execute
 
-OBJS := bin/boot.o bin/kernel.o bin/gdt.o bin/idt.o
-
-
 os:
 	mkdir -p bin/
 	nasm -f bin -Isrc/boot src/boot/sector.asm -o bin/sector.o
 	nasm -f elf -Isrc/boot/ext src/boot/extended.asm -o bin/past.o
 
 	$(CC) $(CFLAGS) -c src/kernel/kernel.c -o bin/kernel.o
-	
-	nasm -f elf include/arch/asm/gdt.s -o bin/gdt.o
-	nasm -f elf include/arch/asm/interrupts.s -o bin/idt.o
-
-	nasm -f elf include/mem/paging.asm -o bin/paging.o
 	
 	ld -melf_i386 -Tsrc/link.ld
 
