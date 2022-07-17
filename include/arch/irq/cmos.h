@@ -85,11 +85,21 @@ void cmos_handle() {
 	}
 
 	// print the time
-	wch_pos(itos(hour, 10)[0], 0xf, 0x9, OFFSET, 0);
-	wch_pos(itos(hour, 10)[1], 0xf, 0x9, OFFSET+1, 0);
+	if(itos(minute, 10)[1] == 0){
+		wch_pos('0', 0xf, 0x9, OFFSET, 0);
+		wch_pos(itos(hour, 10)[0], 0xf, 0x9, OFFSET+1, 0);
+	} else {
+		wch_pos(itos(hour, 10)[0], 0xf, 0x9, OFFSET, 0);
+		wch_pos(itos(hour, 10)[1], 0xf, 0x9, OFFSET+1, 0);
+	}
 	wch_pos(':', 0xf, 0x9, OFFSET+2, 0);
-	wch_pos(itos(minute, 10)[0], 0xf, 0x9, OFFSET+3, 0);
-	wch_pos(itos(minute, 10)[1], 0xf, 0x9, OFFSET+4, 0);
+	if(itos(minute, 10)[1] == 0){
+		wch_pos('0', 0xf, 0x9, OFFSET+3, 0);
+		wch_pos(itos(minute, 10)[0], 0xf, 0x9, OFFSET+4, 0);
+	} else {
+		wch_pos(itos(minute, 10)[0], 0xf, 0x9, OFFSET+3, 0);
+		wch_pos(itos(minute, 10)[1], 0xf, 0x9, OFFSET+4, 0);
+	}
 	wch_pos(':', 0xf, 0x9, OFFSET+5, 0);
 	if(itos(second, 10)[1] == 0){
 		wch_pos('0', 0xf, 0x9, OFFSET+6, 0);
