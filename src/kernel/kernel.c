@@ -6,6 +6,7 @@ void kernel_main(){
 	printf("Hello Kernel World!\n");
 
 	init_idt();
+	asm("sti");
 	printf("Initialized the IDT!\n");
 	init_kbd();
 	for(;;) asm("hlt");

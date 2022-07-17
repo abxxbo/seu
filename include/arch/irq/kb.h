@@ -6,7 +6,6 @@
 
 void kbd_handler(registers_t regs){
 	uint8_t k = inb(0x60);
-	outb(0xe9, 0x61);
 	printf("Keyboard input achieved\n");
 }
 
