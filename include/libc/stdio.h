@@ -9,9 +9,13 @@ int x_pos = 0;
 int y_pos = 0;
 
 uint8_t color = 0x7;
+volatile uint16_t* vga_buffer = (uint16_t*)0xB8000;
+
+
+void scroll();
+void printf(char* fmt, ...);
 
 #define set_color(x) color = x
-
 void putc(unsigned char c){
   uint16_t attrib = (0 << 4) | (color & 0x0F);
   volatile uint16_t * where;
@@ -20,6 +24,12 @@ void putc(unsigned char c){
 	if(++x_pos >= 80){
 		x_pos = 0;
 		y_pos++;
+	}
+
+
+	if(y_pos >= 25) {
+		x_pos = 0;
+		scroll();
 	}
 }
 
@@ -42,6 +52,22 @@ void wch_pos(unsigned char c, unsigned char forecolour, unsigned char backcolour
 	volatile uint16_t* where;
 	where = (volatile uint16_t*)0xB8000 + (y * 80 + x) ;
 	*where = c | (attrib << 8);
+}
+
+void scroll(){
+	uint8_t attributeByte = (0 << 4) | (15 & 0x0F);
+	uint16_t blank = 0x20 | (attributeByte << 8);
+
+	if(y_pos >= 25){
+		int i;
+		for (i = 0*80; i < 24*80; i++) vga_buffer[i] = vga_buffer[i+80];
+
+		for (i = 24*80; i < 25*80; i++) vga_buffer[i] = blank;
+		y_pos = 24;
+	}
+
+	// set line zero to be light blue
+	for(int i = 0; i <= 79; i++) wch_pos(0x20, 0x9, 0x9, i, 0);
 }
 
 #define STR  's'
