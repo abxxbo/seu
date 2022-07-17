@@ -8,8 +8,10 @@ int 0x10
 jmp _pmode
 
 %include "gdt.asm"
+%include "detect_memory.asm"
 
 _pmode:
+	call dmem
 	call _a20
 	cli
 	lgdt [gdt_desc]
@@ -36,5 +38,6 @@ spmode:
 
 	call kernel_main
 	jmp $
+
 
 times 2048-($-$$) db 0

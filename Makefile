@@ -15,7 +15,7 @@ run: execute
 os:
 	mkdir -p bin/
 	nasm -f bin -Isrc/boot src/boot/sector.asm -o bin/sector.o
-	nasm -f elf -Isrc/boot/ext src/boot/extended.asm -o bin/past.o
+	nasm -f elf -Isrc/boot/ext -Iinclude/mem/asm src/boot/extended.asm -o bin/past.o
 
 	nasm -f elf include/arch/asm/idt.s -o bin/idt.o
 
