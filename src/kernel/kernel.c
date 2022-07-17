@@ -10,7 +10,6 @@ void kernel_main(){
 	printf("\nHello Kernel World!\n");
 
 	init_idt();
-	asm("sti");
 
 	// initialize the interrupts
 	init_kbd();
