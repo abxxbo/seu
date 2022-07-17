@@ -7,6 +7,7 @@ void kernel_main(){
 
 	init_idt();
 	asm("sti");
+
 	printf("Initialized the IDT!\n");
 	init_kbd();
 	for(;;) asm("hlt");

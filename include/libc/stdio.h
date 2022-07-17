@@ -37,6 +37,13 @@ void puts(char* str){
 }
 
 
+void putc_pos(unsigned char c, uint8_t col, int x, int y){
+  uint16_t attrib = (0 << 4) | (col & 0x0F);
+  volatile uint16_t * where;
+  where = (volatile uint16_t *)0xB8000 + (y * 80 + x);
+  *where = c | (attrib << 8);
+}
+
 #define STR  's'
 #define INT  'd'
 #define HEX  'x'
