@@ -19,3 +19,10 @@ char* itos(unsigned int num, int base){
 
 	return ptr;
 }
+
+
+void* memset (void *dest, int val, unsigned int len){
+  unsigned char *ptr = dest;
+  while (len-- > 0) *ptr++ = val;
+  return dest;
+}

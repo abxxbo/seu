@@ -6,6 +6,8 @@ INPUT
 (
 	bin/past.o
 	bin/kernel.o
+
+	bin/idt.o
 )
 
 OUTPUT
