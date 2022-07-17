@@ -2,8 +2,10 @@
 
 #include <libc/stdint.h>
 #include <libc/string.h>
+#include "io.h"
 
 #include <stdarg.h>
+
 
 int x_pos = 0;
 int y_pos = 0;
@@ -24,8 +26,9 @@ void putc(unsigned char c){
 	if(++x_pos >= 80){
 		x_pos = 0;
 		y_pos++;
+	
 	}
-
+	update_cursor(x_pos, y_pos);
 
 	if(y_pos >= 25) {
 		x_pos = 0;
@@ -44,6 +47,7 @@ void puts(char* str){
 			*str++;
 		}
 	}
+	update_cursor(x_pos, y_pos); // eh
 }
 
 
