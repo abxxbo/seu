@@ -4,14 +4,6 @@ xor ax, ax
 mov ds, ax
 mov es, ax
 
-
-;; Set the video mode.
-;; This also clears the screen.
-;; This is also called in extended.asm, just to make sure.
-mov ah, 0x00
-mov al, 0x3
-int 0x10
-
 ;; Check if the disk is a floppy or hard disk
 xor dl, dl
 mov ah, 15h
@@ -26,8 +18,6 @@ jle boot_floppy
 jg  boot_hdd    ;; it is a hard drive
 
 jmp $
-;; Warning, this is only for floppies,
-;; Fix for release?
 K_LOC equ 0x8000
 
 disk_read_floppy:

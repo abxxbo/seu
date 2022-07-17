@@ -1,14 +1,12 @@
 ;; Set video mode.
 ;; TODO: switch this out for VESA/VBE
 ;; at some point
-mov ah, 0x00
-mov al, 0x3
-int 0x10
-
+call vbe_init	;; set up video
 jmp _pmode
 
 %include "gdt.asm"
 %include "detect_memory.asm"
+%include "vesa.asm"
 
 _pmode:
 	call dmem
@@ -38,6 +36,3 @@ spmode:
 
 	call kernel_main
 	jmp $
-
-
-times 2048-($-$$) db 0
