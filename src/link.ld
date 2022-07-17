@@ -7,6 +7,8 @@ INPUT
 	bin/past.o
 	bin/kernel.o
 
+	bin/paging.o
+
 	bin/idt.o
 )
 

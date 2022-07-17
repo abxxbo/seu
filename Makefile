@@ -19,6 +19,8 @@ os:
 
 	nasm -f elf include/arch/asm/idt.s -o bin/idt.o
 
+	nasm -f elf include/mem/asm/paging.asm -o bin/paging.o
+
 	$(CC) $(CFLAGS) -c src/kernel/kernel.c -o bin/kernel.o
 	
 	ld -melf_i386 $(LDFLAG)
