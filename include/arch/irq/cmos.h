@@ -86,8 +86,8 @@ void cmos_handle() {
 
 	// print the time
 	if(itos(minute, 10)[1] == 0){
-		wch_pos('0', 0xf, 0x9, OFFSET, 0);
-		wch_pos(itos(hour, 10)[0], 0xf, 0x9, OFFSET+1, 0);
+		wch_pos(itos(hour, 10)[0], 0xf, 0x9, OFFSET, 0);
+		wch_pos('0', 0xf, 0x9, OFFSET+1, 0);
 	} else {
 		wch_pos(itos(hour, 10)[0], 0xf, 0x9, OFFSET, 0);
 		wch_pos(itos(hour, 10)[1], 0xf, 0x9, OFFSET+1, 0);
