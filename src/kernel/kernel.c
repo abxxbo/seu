@@ -15,7 +15,7 @@
 
 // unsigned char* screen = vbe_info_structure.framebuffer;
 static void putpixel(unsigned char* screen, int x,int y, int color) {
-	unsigned where = x * 6 + y * vbe_info_structure.pitch;
+	unsigned volatile where = x * 6 + y * vbe_info_structure.pitch;
 	screen[where] = color & 255;
 	screen[where + 1] = (color >> 8) & 255;
 	screen[where + 2] = (color >> 16) & 255;
