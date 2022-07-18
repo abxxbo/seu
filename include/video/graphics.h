@@ -5,6 +5,16 @@
 
 #include <video/vesa.h>
 
+#define RED 0xff0000
+#define GREEN 0x00ff00
+#define BLUE 0x0000ff
+
+#define YELLOW 0xffff00
+#define PURPLE 0xff00ff
+#define TEAL	 0x00ffff
+#define WHITE  0xffffff
+
+
 // unsigned char* screen = vbe_info_structure.framebuffer;
 void putpixel(uint8_t* screen, int x,int y, int color) {
 	unsigned volatile where = x * 6 + y * vbe_info.pitch;
