@@ -40,4 +40,4 @@ struct vbe_mode_info_structure {
 	uint8_t reserved1[206];
 } __attribute__ ((packed));
 
-extern struct vbe_mode_info_structure vbe_info_structure;
+extern struct vbe_mode_info_structure vbe_info;

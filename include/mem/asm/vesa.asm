@@ -1,6 +1,6 @@
 section .bss
-[global vbe_info_structure]
-vbe_info_structure:
+[global vbe_info]
+vbe_info:
 	.table_data: resb 512-4	;; vbe mode info for mode 0x4118
 
 section .text
@@ -14,7 +14,7 @@ vbe_init:
 	btr bx, 14
 	mov ax, 0x4f01
 	mov cx, MODE
-	mov di, vbe_info_structure
+	mov di, vbe_info
 	int 0x10
 
 	cmp ax, 0x004f

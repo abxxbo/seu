@@ -15,22 +15,16 @@
 
 // unsigned char* screen = vbe_info_structure.framebuffer;
 static void putpixel(unsigned char* screen, int x,int y, int color) {
-	unsigned volatile where = x * 6 + y * vbe_info_structure.pitch;
+	unsigned volatile where = x * 6 + y * vbe_info.pitch;
 	screen[where] = color & 255;
 	screen[where + 1] = (color >> 8) & 255;
 	screen[where + 2] = (color >> 16) & 255;
 }
 
 void kernel_main(){	
-
-	// interesting pattern
-	for(int i = 0; i < 27; i++){
-		for(int j = 0; j < i; j++){
-			if(i %2 == 0) putpixel(vbe_info_structure.framebuffer, i, j, GREEN);
-			if(i %3 == 0) putpixel(vbe_info_structure.framebuffer, i, j, RED);
-			else { putpixel(vbe_info_structure.framebuffer, i, j, BLUE);}
-			i++;
-		}
+	// line
+	for(int x = 0; x < vbe_info.width/4; x++){
+		putpixel(vbe_info.framebuffer, x, 50, 0xffffff);
 	}
 	for(;;) asm("hlt");
 }
