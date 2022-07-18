@@ -4,12 +4,14 @@ vbe_info_structure:
 	.table_data: resb 512-4	;; vbe mode info for mode 0x4118
 
 section .text
-MODE equ 0x4105
+MODE equ 0x1115
 
 vbe_init:
 	xor ax, ax
 	mov es, ax
 	
+	mov bx, ax
+	btr bx, 14
 	mov ax, 0x4f01
 	mov cx, MODE
 	mov di, vbe_info_structure
