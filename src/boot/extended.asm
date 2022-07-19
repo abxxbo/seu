@@ -6,7 +6,6 @@ jmp _pmode
 
 %include "gdt.asm"
 %include "detect_memory.asm"
-%include "vesa.asm"
 
 _pmode:
 	call dmem
