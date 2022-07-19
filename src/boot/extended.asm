@@ -1,7 +1,4 @@
 ;; Set video mode.
-;; TODO: switch this out for VESA/VBE
-;; at some point
-call vbe_init	;; set up video
 jmp _pmode
 
 %include "gdt.asm"

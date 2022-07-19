@@ -1,18 +1,21 @@
-#include <stdio_serial.h>
+#include <stdio.h>
 #include <arch/idt.h>
 
-#include <arch/irq/mouse.h>
+#include <arch/irq/kb.h>
+#include <arch/irq/cmos.h>
 
-#include <video/vesa.h>
-#include <video/graphics.h>
-
-#define BLUE 0x0000ff
-#define GREEN 0x00ff00
-#define RED 0xff0000
+#include <mem/paging.h>
 
 void kernel_main(){
+	// set the first line to a light blue/cyan color
+	for(int i = 0; i <= 80; i++) wch_pos(0x20, 0x9, 0x9, i, 0);
+	setup_pg();
+	printf("\nHello, paging world\n");
+
+	// initialize the interrupts
 	init_idt();
-	init_mouse();
+	init_kbd();
+	init_cmos();
 
 	for(;;) asm("hlt");
 }

@@ -22,8 +22,6 @@ os:
 
 	$(CC) $(CFLAGS) -c src/kernel/kernel.c -o bin/kernel.o
 
-	objcopy -O elf32-i386 -B i386 -I binary include/video/font/font.psf bin/font.o
-	
 	ld -melf_i386 $(LDFLAG)
 
 	cat bin/sector.o bin/kernel.bin > seu.img
