@@ -8,9 +8,8 @@
 
 void kernel_main(){
 	// set the first line to a light blue/cyan color
-	for(int i = 0; i <= 80; i++) wch_pos(0x20, 0x9, 0x9, i, 0);
 	setup_pg();
-	printf("\nHello, paging world\n");
+	printf("Hello, paging world\n");
 
 	// initialize the interrupts
 	init_idt();

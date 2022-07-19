@@ -42,6 +42,7 @@ void puts(char* str){
 			x_pos = 0;
 			y_pos++;
 			*str++;
+			scroll();
 		} else {
 			putc(*str);
 			*str++;
@@ -69,9 +70,6 @@ void scroll(){
 		for (i = 24*80; i < 25*80; i++) vga_buffer[i] = blank;
 		y_pos = 24;
 	}
-
-	// set line zero to be light blue
-	for(int i = 0; i <= 79; i++) wch_pos(0x20, 0x9, 0x9, i, 0);
 }
 
 #define STR  's'

@@ -84,10 +84,24 @@ void cmos_handle() {
 				year = (year & 0x0F) + ((year / 16) * 10);
 	}
 
+	// month day
+	if(itos(month, 10)[1] == 0){
+		wch_pos('0', 0xf, 0x9, OFFSET-6, 0);
+	} else wch_pos(itos(month, 10)[1], 0xf, 0x9, OFFSET-6, 0);
+
+	wch_pos(itos(month, 10)[0], 0xf, 0x9, OFFSET-5, 0);
+	wch_pos('/', 0xf, 0x9, OFFSET-4, 0);
+	wch_pos(itos(day, 10)[0], 0xf, 0x9, OFFSET-3, 0);
+	wch_pos(itos(day, 10)[1], 0xf, 0x9, OFFSET-2, 0);
+
+	// fill the gap between date and time
+	wch_pos(0x20, 0xf, 0x9, OFFSET-1, 0);
+	
+
 	// print the time
-	if(itos(minute, 10)[1] == 0){
-		wch_pos(itos(hour, 10)[0], 0xf, 0x9, OFFSET, 0);
-		wch_pos('0', 0xf, 0x9, OFFSET+1, 0);
+	if(itos(hour, 10)[1] == 0){
+		wch_pos('0', 0xf, 0x9, OFFSET, 0);
+		wch_pos(itos(hour, 10)[0], 0xf, 0x9, OFFSET+1, 0);
 	} else {
 		wch_pos(itos(hour, 10)[0], 0xf, 0x9, OFFSET, 0);
 		wch_pos(itos(hour, 10)[1], 0xf, 0x9, OFFSET+1, 0);
