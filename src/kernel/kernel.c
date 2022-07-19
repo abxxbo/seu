@@ -12,7 +12,8 @@
 
 void kernel_main(){
 	init_idt();
-	init_mouse();
+	// init_mouse();
 
+	printf("Hello, World\n");
 	for(;;) asm("hlt");
 }
