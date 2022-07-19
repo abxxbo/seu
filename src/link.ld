@@ -10,6 +10,8 @@ INPUT
 	bin/paging.o
 
 	bin/idt.o
+
+	bin/font.o
 )
 
 OUTPUT

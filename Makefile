@@ -18,10 +18,11 @@ os:
 	nasm -f elf -Isrc/boot/ext -Iinclude/mem/asm src/boot/extended.asm -o bin/past.o
 
 	nasm -f elf include/arch/asm/idt.s -o bin/idt.o
-
 	nasm -f elf include/mem/asm/paging.asm -o bin/paging.o
 
 	$(CC) $(CFLAGS) -c src/kernel/kernel.c -o bin/kernel.o
+
+	objcopy -O elf32-i386 -B i386 -I binary include/video/font/font.psf bin/font.o
 	
 	ld -melf_i386 $(LDFLAG)
 
