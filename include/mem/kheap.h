@@ -27,10 +27,6 @@ void InitializeHeap(uint32_t heap_addr, uint32_t heap_len) {
 	FirstfreeMemorySegment->n_free_seg = 0;
 	FirstfreeMemorySegment->prev_f_seg = 0;
 	FirstfreeMemorySegment->free = true;
-
-	// log something!
-	printf("==> Initialized heap at addr 0x%s. It's length is 0x%s.\n",
-					itos(heap_addr, 16), itos(heap_len, 16));
 }
 
 void* malloc(uint32_t size);

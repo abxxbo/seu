@@ -7,6 +7,8 @@
 #include <stdarg.h>
 
 
+#define TAB_SIZE 4
+
 int x_pos = 0;
 int y_pos = 0;
 
@@ -38,14 +40,25 @@ void putc(unsigned char c){
 
 void puts(char* str){
 	while(*str){
-		if(*str == '\n'){
-			x_pos = 0;
-			y_pos++;
-			*str++;
-			scroll();
-		} else {
-			putc(*str);
-			*str++;
+		switch(*str){
+			case '\n':
+				x_pos = 0;
+				y_pos++;
+				*str++;
+				scroll();
+				break;
+			case '\t':
+				for(int i = 0; i <= TAB_SIZE; i++) putc(' ');
+				*str++;
+				break;
+			case '\v':
+				for(int i = 0; i <= TAB_SIZE; i++) putc('\n');
+				*str++;
+				break;
+			
+			default:
+				putc(*str);
+				*str++;	
 		}
 	}
 	update_cursor(x_pos, y_pos); // eh

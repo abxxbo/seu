@@ -6,7 +6,7 @@
 - [X] A more friendly GUI for the bootloader
 
 ### Kernel
-- [ ] Heap/Memory Management
+- [X] Heap/Memory Management
 - [ ] Math library
 - [ ] Rendering text
 - [ ] Implement SFS to read from the disk
