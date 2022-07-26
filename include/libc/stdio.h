@@ -108,3 +108,48 @@ void printf(char* fmt, ...) {
 		}
 	}
 }
+
+enum STATUS {
+	SUCCESS = 0,
+	WARN,				// 1
+	INFO,				// 2
+	ERR,				// 3
+}
+
+
+// Prints to the screen, however can only be used
+// in ring 0.
+void kprintf(int status, const char* msg){
+	// check if CPL is 0 -- ring 0.
+
+	// check status
+	switch(status){
+		case SUCCESS:
+			set_color(0x1);
+			printf("[SUCCESS]");
+			set_color(0x7);
+			printf(" %s", msg);
+			break;
+
+		case WARN:
+			set_color(0xE);
+			printf("[WARNING]");
+			set_color(0x7);
+			printf(" %s", msg);
+			break;
+
+		case INFO:
+			set_color(0xF);
+			printf("[INFO]");
+			set_color(0x7);
+			printf(" %s", msg);
+			break;
+
+		case ERR:
+			set_color(0x4);
+			printf("[ERR]");
+			set_color(0x7);
+			printf(" %s", msg);
+			break;	
+	}
+}
