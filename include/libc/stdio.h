@@ -113,8 +113,8 @@ enum STATUS {
 	SUCCESS = 0,
 	WARN,				// 1
 	INFO,				// 2
-	ERR,				// 3
-}
+	ERR				  // 3
+};
 
 
 // Prints to the screen, however can only be used
@@ -128,7 +128,7 @@ void kprintf(int status, const char* msg){
 			set_color(0x1);
 			printf("[SUCCESS]");
 			set_color(0x7);
-			printf(" %s", msg);
+			printf(" %s\n", msg);
 			break;
 
 		case WARN:
@@ -142,14 +142,14 @@ void kprintf(int status, const char* msg){
 			set_color(0xF);
 			printf("[INFO]");
 			set_color(0x7);
-			printf(" %s", msg);
+			printf(" %s\n", msg);
 			break;
 
 		case ERR:
 			set_color(0x4);
 			printf("[ERR]");
 			set_color(0x7);
-			printf(" %s", msg);
+			printf(" %s\n", msg);
 			break;	
 	}
 }
