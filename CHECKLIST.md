@@ -8,7 +8,6 @@
 ### Kernel
 - [X] Heap/Memory Management
 - [ ] Math library
-- [ ] Rendering text
+- [ ] Rendering text in a different font than the original VGA font
 - [ ] Implement SFS to read from the disk
-- [ ] Drawing circles in the graphics library
 - [X] Library to output to QEMU's serial
