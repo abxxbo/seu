@@ -14,6 +14,8 @@
 #include <arch/isr.h>
 #include <arch/idt.h>
 
+#include <drivers/floppy.h>
+
 // initialize the interrupts
 void init_ints(){
 	init_idt();
@@ -35,6 +37,7 @@ void init_(uint32_t heap_start, uint32_t heap_len){
 	mem_init(heap_start, heap_len);
 	init_ints();
 
-	kprintf(SUCCESS, "AbOS has initialized itself!\n");
+	kprintf(SUCCESS, "Seu has initialized itself!\n");
+	detect_floppies();
 }
 
