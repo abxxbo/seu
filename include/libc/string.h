@@ -44,3 +44,16 @@ void* memset (void *dest, int val, unsigned int len){
   while (len-- > 0) *ptr++ = val;
   return dest;
 }
+
+
+char* strcpy(char* source, char* dest){
+	while(*source != '\0') *dest++ = *source++;
+	}
+	return dest;
+}
+
+
+int strcmp(const char *l, const char *r){
+	for (; *l==*r && *l; l++, r++);
+	return *(unsigned char *)l - *(unsigned char *)r;
+}
