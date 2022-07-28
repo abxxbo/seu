@@ -21,6 +21,24 @@ char* itos(unsigned int num, int base){
 }
 
 
+int strlen(char* s){
+	int i = 0;
+	for(; *s != '\0'; *s++) i++;
+	return i;
+}
+
+
+int strstr(char*s, char* ss){
+  int len_ss = strlen(ss);
+  int cont = 0;
+  for(; *s != 0; *s++){
+    if(*s == *ss) cont++;
+    *ss++;
+  }
+  if(cont == len_ss) return 0;
+  return 127;
+}
+
 void* memset (void *dest, int val, unsigned int len){
   unsigned char *ptr = dest;
   while (len-- > 0) *ptr++ = val;
