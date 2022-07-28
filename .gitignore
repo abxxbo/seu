@@ -2,6 +2,7 @@
 bin/
 isodir/
 *.img
+*.iso
 
 # editor
 .vscode/

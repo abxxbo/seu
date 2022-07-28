@@ -36,4 +36,4 @@ execute: seu.iso
 	$(QEMU) $(Q_NODEBUG) -cdrom $^
 
 clean:
-	rm -rf bin
+	rm -rf bin isodir seu.iso
