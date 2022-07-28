@@ -1,7 +1,5 @@
-#include <stdio.h>
 #include <init.h>
-
-#include <drivers/floppy.h>
+#include <stdio.h>
 
 void kernel_main(){
 	init_(0x10000, 0x10000);

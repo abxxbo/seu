@@ -14,6 +14,9 @@
 #include <arch/isr.h>
 #include <arch/idt.h>
 
+/* gdt */
+#include <arch/gdt.h>
+
 #include <drivers/floppy.h>
 
 // initialize the interrupts
@@ -34,6 +37,7 @@ void mem_init(uint32_t heap_start, uint32_t heap_len){
 	kprintf(SUCCESS, "Heap started.");
 }
 void init_(uint32_t heap_start, uint32_t heap_len){
+	init_gdt();
 	mem_init(heap_start, heap_len);
 	init_ints();
 

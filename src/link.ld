@@ -1,42 +1,25 @@
-OUTPUT_FORMAT(binary)
-
-ENTRY (kernel_main)
-
-INPUT
-(
-	bin/past.o
-	bin/kernel.o
-
-	bin/paging.o
-
-	bin/idt.o
-)
-
-OUTPUT
-(
-  bin/kernel.bin
-)
+ENTRY (_start)
 
 SECTIONS
 {
-	. = 0x8000;
-
-	.text : ALIGN(0x1000)
+	. = 1M;
+	.text BLOCK(4K) : ALIGN(4K)
 	{
+		*(.multiboot)
 		*(.text)
 	}
 
-	.data : ALIGN(0x1000)
-	{
-		*(.data)
-	}
-
-	.rodata : ALIGN(0x1000)
+	.rodata BLOCK(4K) : ALIGN(4K)
 	{
 		*(.rodata)
 	}
 
-	.bss : ALIGN(0x1000)
+	.data BLOCK(4K) : ALIGN(4K)
+	{
+		*(.data)
+	}
+
+	.bss BLOCK(4K) : ALIGN(4K)
 	{
 		*(COMMON)
 		*(.bss)
