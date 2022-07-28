@@ -26,6 +26,9 @@ const char sc_table[] ={
 int lshift = 0;
 int rshift = 0;
 
+char* buffer;
+int _buf = 0;
+
 void kbd_handler(registers_t regs){
 	uint8_t k = inb(0x60); // ask CPU for port 0x60 -- keyboard
 	uint8_t c = 0;				 // we look up the chracter in the lookup table
@@ -38,9 +41,13 @@ void kbd_handler(registers_t regs){
 		// check shift
 		switch(lshift | rshift){
 			case 1: // capitalized letters
+			buffer[_buf] = (c-32);
+				_buf++;
 				putc(c - 32);
 				break;
 			case 0: // lowercase
+				buffer[_buf] = c;
+				_buf++;
 				putc(c);
 				break;
 		}
@@ -65,7 +72,8 @@ void kbd_handler(registers_t regs){
 				break;
 
 			// newline
-			case 0x9c: printf("\n");
+			case 0x9c:
+				printf("\n");
 		}
 	}
 }
