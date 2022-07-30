@@ -2,7 +2,6 @@
 #include <init.h>
 
 #include <mem/mmap/mmap.h>
-
 #include "multiboot.h"
 
 void kernel_main(multiboot_info_t* mbd, uint32_t magic){
@@ -23,5 +22,6 @@ void kernel_main(multiboot_info_t* mbd, uint32_t magic){
 	get_mmap(mbd, magic);
 	
 	printf("\nHello, World\n");
+	
 	for(;;) asm("hlt");
 }

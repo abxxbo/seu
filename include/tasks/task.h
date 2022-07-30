@@ -25,9 +25,7 @@ static Task* running_task;
 static Task  main_task;
 static Task  other_task;
 
-static void other_main(){
-	yield();
-}
+static void other_main(){}
 
 void init_tasking(){
 	asm volatile("movl %%cr3, %%eax; mov %%eax, %0" : "=m"(main_task.regs.cr3) :: "%eax");
