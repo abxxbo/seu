@@ -7,6 +7,7 @@
 /* memory */
 #include <mem/kheap.h>
 #include <mem/paging.h>
+#include <mem/mmap/mmap.h>
 
 /* hardware interrupts */
 #include <arch/irq/cmos.h>
