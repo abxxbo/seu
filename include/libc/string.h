@@ -22,11 +22,10 @@ char* itos(unsigned int num, int base){
 
 
 int strlen(char* s){
-	int i = 0;
-	for(; *s != '\0'; *s++) i++;
-	return i;
+	int ct;
+	for(; *s != '\0'; *s++) ct++;
+	return ct;
 }
-
 
 int strstr(char*s, char* ss){
   int len_ss = strlen(ss);
@@ -48,7 +47,6 @@ void* memset (void *dest, int val, unsigned int len){
 
 char* strcpy(char* source, char* dest){
 	while(*source != '\0') *dest++ = *source++;
-	}
 	return dest;
 }
 
