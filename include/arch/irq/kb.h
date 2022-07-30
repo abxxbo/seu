@@ -71,6 +71,17 @@ void kbd_handler(registers_t regs){
 				rshift = 0;
 				break;
 
+			// backspace
+			case 0x0e:
+				// todo: remove from buffer -- whenever the shell is
+				// implemented
+
+				if(x_pos != 0) { 
+					wch_pos(0x20, 0x07, 0x00, --x_pos, y_pos);
+					update_cursor(x_pos, y_pos);
+				}
+				break;
+
 			// newline
 			case 0x9c:
 				printf("\n");
