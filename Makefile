@@ -7,7 +7,7 @@ Q_NODEBUG := -m 512m -debugcon stdio
 Q_DEBUG		:= -d int -M smm=off -no-shutdown -no-reboot -monitor stdio
 
 
-OBJS := bin/boot.o bin/kernel.o bin/gdt.o bin/idt.o bin/paging.o
+OBJS := bin/boot.o bin/kernel.o bin/gdt.o bin/idt.o bin/paging.o bin/task.o
 
 all: clean os
 .PHONY: all
@@ -22,6 +22,8 @@ os:
 	nasm -f elf include/arch/asm/gdt.s -o bin/gdt.o
 	nasm -f elf include/arch/asm/idt.s -o bin/idt.o
 	nasm -f elf include/mem/asm/paging.asm -o bin/paging.o
+
+	i686-elf-as include/tasks/asm/task.s -o bin/task.o
 
 	$(CC) $(CFLAGS) -c src/kernel/kernel.c -o bin/kernel.o
 
