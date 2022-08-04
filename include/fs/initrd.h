@@ -27,15 +27,12 @@ int nroot_nodes;                    // Number of file nodes.
 
 struct dirent dirent;
 
-static uint32_t initrd_read(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer)
-{
-    initrd_file_header_t header = file_headers[node->inode];
-    if (offset > header.length)
-        return 0;
-    if (offset+size > header.length)
-        size = header.length-offset;
-    memcpy(buffer, (uint8_t*) (header.offset+offset), size);
-    return size;
+static uint32_t initrd_read(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer){
+  initrd_file_header_t header = file_headers[node->inode];
+  if (offset > header.length) return 0;
+  if (offset+size > header.length) size = header.length-offset;
+  memcpy(buffer, (uint8_t*) (header.offset+offset), size);
+  return size;
 }
 
 static struct dirent *initrd_readdir(fs_node_t *node, uint32_t index){
@@ -79,7 +76,7 @@ fs_node_t *initialise_initrd(uint32_t location){
   initrd_root->ptr = 0;
   initrd_root->impl = 0;
 
-  // Initialise the /dev directory (required!)
+  // Initialise the \dev\ directory (required!)
   initrd_dev = (fs_node_t*)malloc(sizeof(fs_node_t));
   strcpy(initrd_dev->name, "dev");
   initrd_dev->mask = initrd_dev->uid = initrd_dev->gid = initrd_dev->inode = initrd_dev->length = 0;

@@ -35,30 +35,25 @@ void kernel_main(multiboot_info_t* mbd, uint32_t magic){
 	mem_init(0x10000, 0x10000);
 
 	// init rd is on!
-	int i = 0;
 	struct dirent *node = 0;
-	while ( (node = readdir_fs(fs_root, i)) != 0)
-	{
-		printf("Found file ");
-		printf(node->name);
+	printf("\nReading root directory...\n\n");
+	for(int i = 0; (node = readdir_fs(fs_root, i)) != 0; i+=2){
+		printf("\nFound file! Contents: ");
 		fs_node_t *fsnode = finddir_fs(fs_root, node->name);
 
-		if ((fsnode->flags&0x7) == FS_DIRECTORY) printf("\n\t(directory)\n");
-		else {
-			printf("\n\t contents: \"");
-			char buf[256];
-			uint32_t sz = read_fs(fsnode, 0, 256, buf);
-			printf("%d\n", sz);
-			int j;
-			for (j = 0; j < sz; j++)
-				putc(buf[j]);
-
-			printf("\"\n");
+		printf("\"");
+		char buf[256];
+		uint32_t sz = read_fs(fsnode, 0, 1024, buf);
+		for (int j = 0; j < sz; j++){
+			// kludge
+			if(buf[j] == '\n') puts("\n");
+			else printf("%c", buf[j]);
 		}
-		i++;
-	} 
+		// end, print quotation mark
+		puts("\"");
+	}
 	
-	printf("\nHello, World\n");
+	printf("\n\nHello, World\n");
 	
 	for(;;) asm("hlt");
 }

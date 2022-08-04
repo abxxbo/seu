@@ -30,7 +30,7 @@ os:
 	$(CC) -T src/link.ld -o bin/os.bin -ffreestanding -O2 -nostdlib $(OBJS) -lgcc
 
 	gcc src/tools/initrd-gen.c -o bin/initrd-gen
-	./bin/initrd-gen test.txt test2.txt
+	./bin/initrd-gen test.txt test.txt
 
 	mkdir -p isodir/boot/grub
 	cp bin/os.bin isodir/boot/os.bin

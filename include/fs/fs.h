@@ -16,12 +16,12 @@ struct fs_node;
 
 // These typedefs define the type of callbacks - called when read/write/open/close
 // are called.
-typedef uint8_t (*read_type_t)(struct fs_node*,uint8_t,uint8_t,uint8_t*);
+typedef uint32_t (*read_type_t)(struct fs_node *, unsigned int,  unsigned int,  unsigned char*);
 typedef uint8_t (*write_type_t)(struct fs_node*,uint8_t,uint8_t,uint8_t*);
 typedef void (*open_type_t)(struct fs_node*);
 typedef void (*close_type_t)(struct fs_node*);
-typedef struct dirent * (*readdir_type_t)(struct fs_node*,uint8_t);
-typedef struct fs_node * (*finddir_type_t)(struct fs_node*,char *name);
+typedef struct dirent * (*readdir_type_t)(struct fs_node*,uint32_t);
+typedef struct fs_node * (*finddir_type_t)(struct fs_node*,char* name);
 
 typedef struct fs_node {
   char name[128];     // The filename.
