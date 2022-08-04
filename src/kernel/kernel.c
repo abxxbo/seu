@@ -53,7 +53,8 @@ void kernel_main(multiboot_info_t* mbd, uint32_t magic){
 		puts("\"");
 	}
 	
-	printf("\n\nHello, World\n");
+	// honestly i dont really need this but i like it
+	printf("\n\n%s ", PROMPT);
 	
 	for(;;) asm("hlt");
 }

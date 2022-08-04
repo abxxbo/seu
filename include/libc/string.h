@@ -1,57 +1,63 @@
 #pragma once
 
+#include <stddef.h>
+#include <stdint.h>
 
-// convert an integer to a string with said base.
-// example:
-//	itos(0xc0ff33, 16) returns "c0ff33" 
 char* itos(unsigned int num, int base){ 
-	char rep[]= "0123456789ABCDEF";
-	char buf[50]; 
+	static char repr[]= "0123456789ABCDEF";
+	static char buffer[50]; 
 	char *ptr; 
 
-	ptr = &buf[49]; 
+	ptr = &buffer[49]; 
 	*ptr = '\0'; 
 
-	do { 
-		*--ptr = rep[num%base];
-		num /= base;
-	} while(num != 0);
+	do {
+		*--ptr = repr[num%base]; 
+		num /= base; 
+	}while(num != 0); 
 
-	return ptr;
+	return(ptr); 
 }
 
-
-int strlen(char* s){
-	int ct;
-	for(; *s != '\0'; *s++) ct++;
-	return ct;
-}
-
-int strstr(char*s, char* ss){
-  int len_ss = strlen(ss);
-  int cont = 0;
-  for(; *s != 0; *s++){
-    if(*s == *ss) cont++;
-    *ss++;
-  }
-  if(cont == len_ss) return 0;
-  return 127;
-}
-
-void* memset (void *dest, int val, unsigned int len){
+void* memset(void *dest, int val, size_t len){
   unsigned char *ptr = dest;
-  while (len-- > 0) *ptr++ = val;
+  while (len-- > 0)
+    *ptr++ = val;
   return dest;
 }
 
+int strcmp(const char *p1, const char *p2){
+  const unsigned char *s1 = (const unsigned char *) p1;
+  const unsigned char *s2 = (const unsigned char *) p2;
+  unsigned char c1, c2;
+  do {
+		c1 = (unsigned char) *s1++;
+		c2 = (unsigned char) *s2++;
+	  if (c1 == '\0') return c1 - c2;
+  } while (c1 == c2);
+  return c1 - c2;
+}
+
+// Get length of string.
+int strlen(char* f){
+	int d;
+	for(d = 0; *f != 0; *f++) d++;
+	return d;
+}
+
+// Find SS in S. Return 0 if found, 127 if not
+int strstr(char*s, char* ss){
+	int len_ss = strlen(ss);
+	int cont = 0;
+	for(; *s != 0; *s++){
+		if(*s == *ss) cont++;
+		*ss++;
+	}
+	if(cont == len_ss) return 0;
+	return 127;
+}
 
 char* strcpy(char* source, char* dest){
 	while(*source != '\0') *dest++ = *source++;
 	return dest;
-}
-
-
-int strcmp(const char *l, const char *r){
-	for (; *l==*r && *l; l++, r++);
-	return *(unsigned char *)l - *(unsigned char *)r;
 }
