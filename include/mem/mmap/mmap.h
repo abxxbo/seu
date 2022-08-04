@@ -18,8 +18,8 @@ void get_mmap(multiboot_info_t* info, uint32_t magic){
 	// print memory map content
 	for(int i = 0; i < info->mmap_length; i += sizeof(multiboot_memory_map_t)){
 		multiboot_memory_map_t* mmmt = (multiboot_memory_map_t*)(info->mmap_addr + i);
-		printf("Start addr -> %x | Length: %x | Size: %x | Type: %d\n",
-				mmmt->addr, mmmt->len, mmmt->size, mmmt->type);
+		printf("Start addr -> %x | Length: %x | Size: %x | Type: %d | Usable: %s\n",
+				mmmt->addr_low, mmmt->len_low, mmmt->size, mmmt->type, mmmt->type-1 ? "No" : "Yes");
 	}
 
 	// set the color back to normal
