@@ -14,18 +14,26 @@ char* recognized_commands[] = {
   "echo"
 };
 
+// This is just a brief summary on what each command does
+// When 'help' is invoked, the output
+// should look like:
+//    [cmd]: [summary]
+char* brief_summary[] = {
+  "Displays all commands with a brief summary on what they do.", // help command
+  "Echo out everything after 'echo'"                             // echo command
+};
+
 int reg_cmd_l = sizeof(recognized_commands)/sizeof(recognized_commands[0]);
 
 int ask_shell_cmd(char* buffer){
-	for(int i = 0; i < reg_cmd_l; i++){ // hardcoded value for length of recg_cmd, change.
+	for(int i = 0; i < reg_cmd_l; i++){
 		if(strstr(buffer, recognized_commands[i]) != 127){
      
       // help command
 			if(strstr(buffer, recognized_commands[0]) == 0){
-				printf("Available commands:\n");
 				// unoptimized as hell, but eh, runs quick enough
 				for(int j = 0; j < reg_cmd_l; j++){
-					printf("%s\n", recognized_commands[j]);
+					printf("%s: %s\n", recognized_commands[j], brief_summary[j]);
 				}
 				return 0;
 			}
