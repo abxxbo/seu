@@ -10,8 +10,7 @@
 
 
 char* recognized_commands[] = {
-	"help",			// ... only a help command, just print out each entry here.
-  "echo"
+	"help"
 };
 
 // This is just a brief summary on what each command does
@@ -20,7 +19,6 @@ char* recognized_commands[] = {
 //    [cmd]: [summary]
 char* brief_summary[] = {
   "Displays all commands with a brief summary on what they do.", // help command
-  "Echo out everything after 'echo'"                             // echo command
 };
 
 int reg_cmd_l = sizeof(recognized_commands)/sizeof(recognized_commands[0]);
@@ -37,17 +35,6 @@ int ask_shell_cmd(char* buffer){
 				}
 				return 0;
 			}
-
-      // echo command
-      if(strstr(buffer, recognized_commands[1]) == 0){
-        for(int i = 5; i < strlen(buffer); i++){
-          char c = buffer[i];
-          if(c == '\n') puts("\n");
-          else putc(c);
-        }
-        puts("\n");
-        return 0;
-      }
 		} else {
 			if(strcmp(buffer, "") == 0) return 0;
 		}
